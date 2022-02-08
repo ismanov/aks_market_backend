@@ -1,3 +1,4 @@
+import { ConfirmVerificationDto } from './../verification/dto/confirm-verification.dto';
 import { VerificationService } from './../verification/verification.service';
 import { Customer } from './schemas/customer.schema';
 import { InjectModel } from '@nestjs/mongoose';
@@ -14,7 +15,7 @@ export class CustomersService {
 
   public async create(createCustomerDto: CreateCustomerDto) {
     const verificationId = await this.verificationService.create({
-      code: '1235',
+      code: 1235,
       phone: createCustomerDto.phone,
     });
 
@@ -29,5 +30,12 @@ export class CustomersService {
       return verificationId._id.toString();
     }
     throw new HttpException('Server error', HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  public async confirmCustomer(confirmVerificationDto: ConfirmVerificationDto) {
+    const phoneNumber = await this.verificationService.confirm(
+      confirmVerificationDto,
+    );
+    return phoneNumber;
   }
 }

@@ -1,12 +1,11 @@
 import { MaxLength, IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateVerificationDto {
+export class ConfirmVerificationDto {
   @MaxLength(60)
   @IsNotEmpty()
   readonly code: number;
 
   @IsString()
-  @MaxLength(30)
   @IsNotEmpty()
-  readonly phone: string;
+  readonly verificationId: string;
 }
