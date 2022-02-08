@@ -17,16 +17,6 @@ async function bootstrap() {
 
   const fastifyAdapter = new FastifyAdapter();
 
-  fastifyAdapter
-    .getInstance()
-    .addContentTypeParser(
-      'application/json',
-      { bodyLimit: 0 },
-      (_request, _payload, done) => {
-        done(null, {});
-      },
-    );
-
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     fastifyAdapter,
@@ -42,7 +32,9 @@ async function bootstrap() {
     }),
   );
 
-  await app.register(fastifyHelmet);
+  await app.register(fastifyHelmet, {
+    contentSecurityPolicy: false,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Aks market example')
@@ -55,7 +47,9 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
+  app.enableCors();
   await app.listen(PORT);
+  console.log(`started ${PORT}`);
 }
 
 bootstrap();

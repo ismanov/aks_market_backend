@@ -16,6 +16,6 @@ export class VerificationService {
     const createdVerification = new this.verificationModel({
       code: createVerificationDto.code,
     });
-    return createdVerification.save();
+    return await createdVerification.save();
   }
 }

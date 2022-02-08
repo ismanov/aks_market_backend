@@ -1,7 +1,10 @@
-import { CustomersModule } from './customers/customers.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
+
+import { CustomersModule } from './customers/customers.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -10,6 +13,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     MongooseModule.forRoot(process.env.MONGODB_HOST),
     CustomersModule,
+    ScheduleModule.forRoot(),
+    TasksModule,
   ],
 })
 export class AppModule {}

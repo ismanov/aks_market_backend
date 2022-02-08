@@ -17,10 +17,16 @@ export class CustomersService {
       code: '1235',
       phone: createCustomerDto.phone,
     });
+
     if (verificationId) {
-      const newCustomer = new this.customerModel(createCustomerDto);
-      await newCustomer.save();
-      return verificationId;
+      const newCustomer = await this.customerModel.update(
+        { phone: createCustomerDto.phone },
+        { $set: createCustomerDto },
+        { upsert: true, setDefaultsOnInsert: true },
+      );
+      console.log(newCustomer);
+
+      return verificationId._id.toString();
     }
     throw new HttpException('Server error', HttpStatus.INTERNAL_SERVER_ERROR);
   }
