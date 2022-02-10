@@ -5,6 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { CustomersModule } from './customers/customers.module';
 import { TasksModule } from './tasks/tasks.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TasksModule } from './tasks/tasks.module';
     CustomersModule,
     ScheduleModule.forRoot(),
     TasksModule,
+    ProductsModule,
   ],
 })
 export class AppModule {}

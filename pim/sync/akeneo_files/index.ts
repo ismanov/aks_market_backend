@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import config, { akeneoConfig } from '../../config';
+import { akeneoConfig, catalogConfig } from '../../config';
 import api from '../../api/akeneo';
 
 import { mongoClientWrapper } from '../../api/mongo';
@@ -32,9 +32,11 @@ const sync = async (dbName: string) => {
   await Promise.all(filesTasks);
 };
 
-sync(config.catalogConfig.b2b.dbName)
-  .then(() => process.exit(0))
-  .catch((error: Error) => {
-    console.log(`[Sync: ERROR] ${error.message}`, { error });
-    process.exit(1);
-  });
+export const syncFiles = () => {
+  sync(catalogConfig.b2b.dbName)
+    .then(() => process.exit(0))
+    .catch((error: Error) => {
+      console.log(`[Sync: ERROR] ${error.message}`, { error });
+      process.exit(1);
+    });
+};

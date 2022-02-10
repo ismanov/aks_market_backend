@@ -1,7 +1,7 @@
-import hashSum from 'hash-sum';
+import hashSum = require('hash-sum');
 import * as _ from 'lodash';
 import * as fs from 'fs';
-import sharp from 'sharp';
+import * as sharp from 'sharp';
 import * as path from 'path';
 import { MongoClient } from 'mongodb';
 import { AxiosRequestConfig } from 'axios';
@@ -39,7 +39,11 @@ const mongoUpsertMany =
         };
 
         if (hash) {
-          o.hash = hashSum(item);
+          try {
+            o.hash = hashSum(item);
+          } catch (error) {
+            console.log(error.message);
+          }
         }
 
         batch

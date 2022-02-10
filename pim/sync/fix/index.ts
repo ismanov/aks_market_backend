@@ -82,18 +82,11 @@ const fix = async (siteMongodbName: string, pricePrimary: string) => {
     );
   };
 
-  // await mongoClientWrapper(fixProductsCollection);
+  await mongoClientWrapper(fixProductsCollection);
   await mongoClientWrapper(fixAttributesCollection);
   await mongoClientWrapper(fixCategoriesCollection);
 };
 
-const run = async () => {
+export const runFix = async () => {
   await fix(catalogConfig.b2b.dbName, catalogConfig.b2b.price.primary);
 };
-
-run()
-  .then(() => process.exit(0))
-  .catch((error: Error) => {
-    console.log(`[Fix: ERROR] ${error.message}`, { error });
-    process.exit(1);
-  });

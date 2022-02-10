@@ -1,3 +1,5 @@
+import { syncFiles } from './../../pim/sync/akeneo_files/index';
+import { runFix } from './../../pim/sync/fix/index';
 import { Cron, Timeout } from '@nestjs/schedule';
 import { Verification } from './../verification/schemas/verification.schema';
 import { InjectModel } from '@nestjs/mongoose';
@@ -23,20 +25,30 @@ export class TasksService {
       const deletedCodes = await this.verificationModel.deleteMany({
         createdDate: { $lt: currentTime - 300000 },
       });
-      this.logger.debug(deletedCodes);
+      this.logger.log(deletedCodes);
     } catch (error) {}
   }
 
-  @Timeout(1000)
-  private async syncProductListLookup() {
-    create();
-  }
+  // @Timeout(1000)
+  // private async syncProductListLookup() {
+  //   await create();
+  //   this.logger.log('run Fix');
+  //   runFix()
+  //     .then(() => {
+  //       this.logger.log('fixed');
+  //     })
+  //     .catch((err) => {
+  //       this.logger.error(String(err.message));
+  //     });
+  //   syncFiles();
+  //   this.logger.log(process.cwd());
+  // }
 
   @Cron('0 0 2 * * *')
   private async syncProductsAndCatalog() {
     try {
       syncProducts('aks_akeneo').then(async (mongoClientWrapper) => {
-        this.logger.debug('started sync');
+        this.logger.log('started sync');
         await mongoClientWrapper(async (err, client) => {
           if (err) {
             this.logger.error(err.message);
@@ -47,10 +59,10 @@ export class TasksService {
             .aggregate([
               {
                 $project: {
-                  _id: 0,
+                  _id: 1,
                   name: 1,
-                  prices: 2,
-                  images: 3,
+                  prices: 1,
+                  images: 1,
                 },
               },
               { $out: { db: 'aks_akeneo', coll: 'product_lookup' } },
@@ -59,7 +71,7 @@ export class TasksService {
           do {
             next = await cursor.next();
           } while (next != null);
-          this.logger.debug('end sync');
+          this.logger.log('end sync');
         });
       });
     } catch (error) {

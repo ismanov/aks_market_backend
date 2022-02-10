@@ -1,4 +1,3 @@
-
 export interface ICatalogConfig {
   dbName: string;
   categories: {
@@ -21,4 +20,11 @@ export interface IAttribute {
   group: string;
   name: string;
   type: string;
+}
+export interface ISmsConfig {
+  api: {
+    url: string;
+    key: string;
+    sender: string;
+  };
 }
