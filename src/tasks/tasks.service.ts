@@ -5,9 +5,9 @@ import { Verification } from './../verification/schemas/verification.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { syncProducts } from 'pim/sync/akeneo/index';
-import { mongoClientWrapper } from 'pim/api/mongo';
-import { create } from 'pim/sync/create';
+import { syncProducts } from '../../pim/sync/akeneo/index';
+import { mongoClientWrapper } from '../../pim/api/mongo';
+import { create } from '../../pim/sync/create';
 
 @Injectable()
 export class TasksService {

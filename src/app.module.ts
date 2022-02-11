@@ -3,9 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 
-import { CustomersModule } from './customers/customers.module';
-import { TasksModule } from './tasks/tasks.module';
-import { ProductsModule } from './products/products.module';
+import { TasksModule } from 'tasks/tasks.module';
+import { ProductsModule } from 'products/products.module';
+import { AuthModule } from 'auth/auth.module';
+import { OrdersModule } from 'orders/orders.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ProductsModule } from './products/products.module';
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
     MongooseModule.forRoot(process.env.MONGODB_HOST),
-    CustomersModule,
+    AuthModule,
+    OrdersModule,
     ScheduleModule.forRoot(),
     TasksModule,
     ProductsModule,

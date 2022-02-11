@@ -1,10 +1,11 @@
-import { VerificationModule } from './../verification/verification.module';
-import { CustomerSchema } from './schemas/customer.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 
-import { CustomersController } from './customers.controller';
-import { CustomersService } from './customers.service';
+import { VerificationModule } from 'verification/verification.module';
+import { CustomerSchema } from 'customers/schemas/customer.schema';
+
+import { CustomersController } from 'customers/customers.controller';
+import { CustomersService } from 'customers/customers.service';
 
 @Module({
   imports: [
@@ -13,5 +14,6 @@ import { CustomersService } from './customers.service';
   ],
   controllers: [CustomersController],
   providers: [CustomersService],
+  exports: [CustomersService],
 })
 export class CustomersModule {}
