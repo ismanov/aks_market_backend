@@ -92,7 +92,7 @@ export class VerificationService {
     throw new HttpException(
       {
         status: HttpStatus.NOT_FOUND,
-        error: 'Time out',
+        error: 'time expired',
       },
       HttpStatus.NOT_FOUND,
     );
