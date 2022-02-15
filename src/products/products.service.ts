@@ -12,7 +12,12 @@ export class ProductsService {
     });
   }
 
-  async findAll(page = 1, limit = 20, search = '', categoryId?: string) {
+  async getProductsList(
+    page = 1,
+    limit = 20,
+    search = '',
+    categoryId?: string,
+  ) {
     const findQuery = await this.productModel.aggregate([
       {
         $match: {

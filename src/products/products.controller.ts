@@ -8,8 +8,13 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  async getAllPosts(@Query() queryParams: ProductSearchDto) {
+  async getProducts(@Query() queryParams: ProductSearchDto) {
     const { page, limit, search, categoryId } = queryParams;
-    return this.productsService.findAll(page, limit, search, categoryId);
+    return this.productsService.getProductsList(
+      page,
+      limit,
+      search,
+      categoryId,
+    );
   }
 }

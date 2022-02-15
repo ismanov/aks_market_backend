@@ -3,21 +3,15 @@ import { Transform } from 'class-transformer';
 import { Document } from 'mongoose';
 
 @Schema()
-export class Product extends Document {
+export class Category extends Document {
   @Transform(({ value }) => value.toString())
   _id: string;
 
   @Prop()
-  prices: string;
+  enabled: boolean;
 
   @Prop()
-  images: Array<string>;
-
-  @Prop()
-  fullName: string;
-
-  @Prop()
-  categories: string[];
+  name: string;
 }
 
-export const ProductsSchema = SchemaFactory.createForClass(Product);
+export const CategorySchema = SchemaFactory.createForClass(Category);

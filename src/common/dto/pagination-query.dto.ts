@@ -11,4 +11,9 @@ export class PaginationQueryDto {
   @IsOptional()
   @IsPositive()
   page: number;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsPositive()
+  search: string;
 }
