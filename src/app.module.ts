@@ -7,6 +7,7 @@ import { TasksModule } from 'tasks/tasks.module';
 import { ProductsModule } from 'products/products.module';
 import { AuthModule } from 'auth/auth.module';
 import { OrdersModule } from 'orders/orders.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { OrdersModule } from 'orders/orders.module';
     ScheduleModule.forRoot(),
     TasksModule,
     ProductsModule,
+    CategoriesModule,
   ],
 })
 export class AppModule {}

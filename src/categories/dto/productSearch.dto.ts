@@ -1,14 +1,15 @@
+import { PaginationQueryDto } from 'common/dto/pagination-query.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsPositive } from 'class-validator';
 
-export class PaginationQueryDto {
+export class ProductSearchDto extends PaginationQueryDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsPositive()
-  limit: number;
+  categoryId: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsPositive()
-  page: number;
+  search: string;
 }

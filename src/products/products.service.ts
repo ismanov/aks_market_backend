@@ -12,11 +12,14 @@ export class ProductsService {
     });
   }
 
-  async findAll(page = 1, limit = 20) {
+  async findAll(page = 1, limit = 20, search = '', categoryId?: string) {
     const findQuery = await this.productModel.aggregate([
       {
         $match: {
-          categories: 'f860b324e7a137edb2aae5b65f966a05',
+          ...(categoryId ? { categories: categoryId } : undefined),
+          ...(search
+            ? { fullName: { $regex: new RegExp(search, 'i') } }
+            : undefined),
         },
       },
       {
@@ -39,16 +42,18 @@ export class ProductsService {
           ],
           data: [
             {
-              $skip: page * limit,
+              $skip: ((page || 1) - 1) * limit,
             },
             {
-              $limit: limit,
+              $limit: Number(limit || 0),
             },
           ],
         },
       },
     ]);
+    const res = findQuery[0];
+    res.totalRecords = { total: 0, page, limit, ...res.totalRecords[0] };
 
-    return findQuery[0];
+    return res;
   }
 }
