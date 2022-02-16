@@ -1,7 +1,9 @@
 import { ProductSearchDto } from 'products/dto/productSearch.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, StreamableFile } from '@nestjs/common';
 import { ProductsService } from './products.service';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
@@ -16,5 +18,16 @@ export class ProductsController {
       search,
       categoryId,
     );
+  }
+
+  @Get(':id')
+  async getProductById(@Param('id') id: string) {
+    return this.productsService.getProductById(id);
+  }
+
+  @Get('image/:filePath')
+  getFile(@Param('filePath') filePath: string): StreamableFile {
+    const file = createReadStream(join(process.cwd(), `static/big`, filePath));
+    return new StreamableFile(file);
   }
 }

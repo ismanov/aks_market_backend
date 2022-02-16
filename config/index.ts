@@ -12,7 +12,12 @@ import { ICatalogConfig, ISmsConfig } from '../pim/types';
 //   throw new Error(`PROJECT_ENV: must be one of ${environments}`);
 // }
 
-const tomlPath = path.resolve(__dirname, `../../../env/config.toml`);
+const tomlPath = path.resolve(
+  __dirname,
+  process.env.NODE_ENV === 'dockerDev'
+    ? './config.toml'
+    : '../../../env/config.toml',
+);
 const toml = fs.readFileSync(tomlPath).toString();
 
 const reader = new TomlReader();

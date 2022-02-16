@@ -5,6 +5,7 @@ import { Document } from 'mongoose';
 @Schema()
 export class Product extends Document {
   @Transform(({ value }) => value.toString())
+  @Prop({ type: String })
   _id: string;
 
   @Prop()

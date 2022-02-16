@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './schemas/product.schema';
 import { Model } from 'mongoose';
 
@@ -60,5 +60,15 @@ export class ProductsService {
     res.totalRecords = { total: 0, page, limit, ...res.totalRecords[0] };
 
     return res;
+  }
+
+  async getProductById(id: string) {
+    const product = await this.productModel.findById(id);
+
+    if (!product) {
+      throw new NotFoundException('product not found');
+    }
+
+    return product;
   }
 }
