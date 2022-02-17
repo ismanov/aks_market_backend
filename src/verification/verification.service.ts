@@ -29,7 +29,7 @@ export class VerificationService {
     if (verification) {
       if (
         verification._id.toString() === confirmVerificationDto.verificationId &&
-        verification.code === confirmVerificationDto.code
+        Number(verification.code) === Number(confirmVerificationDto.code)
       ) {
         if (Date.now() - verification.createdDate > 90000) {
           await verification.remove();
@@ -51,7 +51,7 @@ export class VerificationService {
         {
           status: HttpStatus.BAD_REQUEST,
           error:
-            verification.code === confirmVerificationDto.code
+            Number(verification.code) === Number(confirmVerificationDto.code)
               ? 'bad request'
               : 'Invalid confirmation code',
         },

@@ -4,10 +4,12 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+
+// swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 // security
-import { fastifyHelmet } from 'fastify-helmet';
+import helmet from 'fastify-helmet';
 
 // modules
 import { AppModule } from './app.module';
@@ -15,24 +17,13 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const PORT = process.env.PORT || 5000;
 
-  const fastifyAdapter = new FastifyAdapter();
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    fastifyAdapter,
-  );
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      forbidNonWhitelisted: true,
-      transformOptions: {
-        enableImplicitConversion: true,
-      },
-    }),
+    new FastifyAdapter(),
   );
 
-  await app.register(fastifyHelmet, {
+  app.register(helmet, {
     contentSecurityPolicy: false,
   });
 
