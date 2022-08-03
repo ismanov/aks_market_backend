@@ -14,28 +14,26 @@ export class CustomersService {
   ) {}
 
   public async create(createCustomerDto: CreateCustomerDto) {
-    const verificationId = await this.verificationService.create({
-      code: 1235,
-      phone: createCustomerDto.phone,
-    });
+    const verificationId = await this.verificationService.create(
+      createCustomerDto,
+    );
 
     if (verificationId) {
-      const newCustomer = await this.customerModel.update(
-        { phone: createCustomerDto.phone },
-        { $set: createCustomerDto },
-        { upsert: true, setDefaultsOnInsert: true },
-      );
-      console.log(newCustomer);
-
       return verificationId._id.toString();
     }
     throw new HttpException('Server error', HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
+  // confirm user phone number
   public async confirmCustomer(confirmVerificationDto: ConfirmVerificationDto) {
-    const phoneNumber = await this.verificationService.confirm(
+    const customer = await this.verificationService.confirm(
       confirmVerificationDto,
     );
-    return phoneNumber;
+    if (customer.phone) {
+      const newCustomer = new this.customerModel({ ...customer, active: true });
+      console.log(newCustomer);
+      return newCustomer.save();
+    }
+    throw new HttpException('Server error', HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

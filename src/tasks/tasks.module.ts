@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { VerificationSchema } from 'src/verification/schemas/verification.schema';
+import { VerificationSchema } from 'verification/schemas/verification.schema';
 import { TasksService } from './tasks.service';
 
 @Module({

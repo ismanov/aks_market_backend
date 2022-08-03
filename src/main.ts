@@ -4,33 +4,35 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-
-// swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { HttpExceptionFilter } from 'common/filters/http-exception.filter';
 
 // security
-import helmet from 'fastify-helmet';
+import fastifyHelmet from 'fastify-helmet';
 
 // modules
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 3000;
 
+  const fastifyAdapter = new FastifyAdapter();
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    fastifyAdapter,
   );
+  app.useGlobalFilters(new HttpExceptionFilter());
+  //app.useGlobalPipes(new ValidationPipe());
 
-  app.register(helmet, {
+  await app.register(fastifyHelmet, {
     contentSecurityPolicy: false,
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Aks market example')
+    .setTitle('Aks market apies')
     .setDescription('The aks API description')
-    .setVersion('1.0')
+    .setVersion('1.01')
     .addTag('aks')
     .build();
 

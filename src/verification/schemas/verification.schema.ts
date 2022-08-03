@@ -9,6 +9,9 @@ export class Verification extends Document {
   @Prop({ required: true })
   phone: string;
 
+  @Prop({ required: true })
+  fullName: string;
+
   @Prop({ default: Date.now() })
   createdDate: number;
 
